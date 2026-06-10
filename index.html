@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -655,18 +654,17 @@ footer{background:var(--ink);padding:64px 48px 32px}
 <div class="toast" id="toast"></div>
 
 <script>
-
 const products = [
-  {id:1,name:"Veilleuse LED Étoiles Magiques",cat:"nuit",price:24,oldPrice:32,badge:"hot",badgeText:"🔥 Bestseller",emoji:"🌟",bg:"#e8f4fd",desc:"Projection étoiles 360°, minuterie 30min, télécommande incluse. Le préféré des parents !",stars:5,reviews:1243},
-  {id:2,name:"Thermomètre Frontal Sans Contact",cat:"soin",price:28,oldPrice:36,badge:"hot",badgeText:"🔥 Top vente",emoji:"🌡️",bg:"#fff8e1",desc:"Résultat en 1 seconde, mémoire 30 mesures, sans contact. Idéal la nuit.",stars:5,reviews:892},
-  {id:3,name:"Coupe-Ongles Électrique Bébé",cat:"soin",price:22,oldPrice:29,badge:"hot",badgeText:"🔥 Viral TikTok",emoji:"✂️",bg:"#f3e8fd",desc:"Sécurisé, silencieux, 6 vitesses. Fini la peur de couper les doigts de bébé !",stars:5,reviews:674},
+  {id:1,name:"Veilleuse LED Étoiles Magiques",cat:"nuit",price:24,oldPrice:32,badge:"hot",badgeText:"🔥 Bestseller",emoji:"🌟",bg:"#e8f4fd",desc:"Projection étoiles 360°, minuterie 30min, télécommande incluse.",stars:5,reviews:1243},
+  {id:2,name:"Thermomètre Frontal Sans Contact",cat:"soin",price:28,oldPrice:36,badge:"hot",badgeText:"🔥 Top vente",emoji:"🌡️",bg:"#fff8e1",desc:"Résultat en 1 seconde, mémoire 30 mesures, sans contact.",stars:5,reviews:892},
+  {id:3,name:"Coupe-Ongles Électrique Bébé",cat:"soin",price:22,oldPrice:29,badge:"hot",badgeText:"🔥 Viral TikTok",emoji:"✂️",bg:"#f3e8fd",desc:"Sécurisé, silencieux, 6 vitesses. Fini la peur de blesser bébé !",stars:5,reviews:674},
   {id:4,name:"Attache-Tétine Silicone Premium",cat:"soin",price:18,oldPrice:null,badge:"new",badgeText:"✨ Nouveau",emoji:"🌸",bg:"#fde8f0",desc:"100% silicone alimentaire, sans BPA, clip sécurisé anti-chute.",stars:5,reviews:511},
-  {id:5,name:"Sac à Langer Imperméable",cat:"maternite",price:49,oldPrice:65,badge:"hot",badgeText:"🔥 Bestseller",emoji:"👜",bg:"#fff8e1",desc:"Imperméable, 12 poches organisées, tapis à langer inclus. Style & praticité.",stars:5,reviews:438},
+  {id:5,name:"Sac à Langer Imperméable",cat:"maternite",price:49,oldPrice:65,badge:"hot",badgeText:"🔥 Bestseller",emoji:"👜",bg:"#fff8e1",desc:"Imperméable, 12 poches organisées, tapis à langer inclus.",stars:5,reviews:438},
   {id:6,name:"Coussin d'Allaitement Ergonomique",cat:"maternite",price:35,oldPrice:46,badge:"promo",badgeText:"−24%",emoji:"🤱",bg:"#fde8f0",desc:"Ergonomique, housse lavable en machine, rembourrage mémoire de forme.",stars:5,reviews:318},
-  {id:7,name:"Siège de Bain Bébé Sécurisé",cat:"soin",price:26,oldPrice:34,badge:"new",badgeText:"✨ Nouveau",emoji:"🛁",bg:"#e2f5ee",desc:"Antidérapant, siège ergonomique, adapté 0-12 mois. Bain sécurisé et fun !",stars:5,reviews:287},
-  {id:8,name:"Stérilisateur de Biberons Électrique",cat:"soin",price:38,oldPrice:49,badge:"hot",badgeText:"🔥 Indispensable",emoji:"🍼",bg:"#e8f4fd",desc:"Stérilise 6 biberons en 8 minutes, maintien stérile 24h, sans produit chimique.",stars:5,reviews:521},
-  {id:9,name:"Veilleuse Nomade Rechargeable",cat:"nuit",price:19,oldPrice:null,badge:"new",badgeText:"✨ Nouveau",emoji:"🌙",bg:"#f3e8fd",desc:"Rechargeable USB, 3 intensités, légère et portable. Parfaite pour les voyages.",stars:4,reviews:193},
-  {id:10,name:"Kit Soin Complet Naissance",cat:"maternite",price:42,oldPrice:58,badge:"promo",badgeText:"−28%",emoji:"🎁",bg:"#e2f5ee",desc:"Thermomètre + coupe-ongles + mouche-bébé + brosse. Le cadeau naissance parfait !",stars:5,reviews:356},
+  {id:7,name:"Siège de Bain Bébé Sécurisé",cat:"soin",price:26,oldPrice:34,badge:"new",badgeText:"✨ Nouveau",emoji:"🛁",bg:"#e2f5ee",desc:"Antidérapant, adapté 0-12 mois. Bain sécurisé et fun !",stars:5,reviews:287},
+  {id:8,name:"Stérilisateur de Biberons Électrique",cat:"soin",price:38,oldPrice:49,badge:"hot",badgeText:"🔥 Indispensable",emoji:"🍼",bg:"#e8f4fd",desc:"Stérilise 6 biberons en 8 minutes, maintien stérile 24h.",stars:5,reviews:521},
+  {id:9,name:"Veilleuse Nomade Rechargeable",cat:"nuit",price:19,oldPrice:null,badge:"new",badgeText:"✨ Nouveau",emoji:"🌙",bg:"#f3e8fd",desc:"Rechargeable USB, 3 intensités, légère et portable.",stars:4,reviews:193},
+  {id:10,name:"Kit Soin Complet Naissance",cat:"maternite",price:42,oldPrice:58,badge:"promo",badgeText:"−28%",emoji:"🎁",bg:"#e2f5ee",desc:"Thermomètre + coupe-ongles + mouche-bébé + brosse.",stars:5,reviews:356},
 ];
 
 let cart=[];
@@ -776,10 +774,10 @@ function wishToast(){showToast('💜 Ajouté à vos favoris !')}
 function checkout(){
   if(!cart.length)return;
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const items=cart.map(i=>`${i.qty}x ${i.name} (${i.price}€)`).join(', ');
-  const msg=`Bonjour, je souhaite commander : ${items}. Total : ${total.toFixed(2)}€`;
-  const url=`https://wa.me/33600000000?text=${encodeURIComponent(msg)}`;
-  window.open(url,'_blank');
+  const items=cart.map(i=>i.qty+"x "+i.name+" ("+i.price+"euros)").join(", ");
+  const msg="Bonjour, je souhaite commander : "+items+". Total : "+total.toFixed(2)+"euros";
+  const url="https://wa.me/33600000000?text="+encodeURIComponent(msg);
+  window.open(url,"_blank");
 }
 
 function subscribe(){
