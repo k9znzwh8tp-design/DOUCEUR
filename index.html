@@ -654,10 +654,7 @@ footer{background:var(--ink);padding:64px 48px 32px}
 
 <div class="toast" id="toast"></div>
 
-<script src="https://js.stripe.com/v3/"></script>
 <script>
-const STRIPE_KEY = 'pk_live_51TEYU5CoAr9lmwrp1XQDLVulgQfpcCpXKof8bcYbeFY6kHCIENJdU17UV7XaH4aB7GIl4Wp6X9Stzxa1i9fXu10x00MsgoIL3m';
-const stripe = Stripe(STRIPE_KEY);
 
 const products = [
   {id:1,name:"Veilleuse LED Étoiles Magiques",cat:"nuit",price:24,oldPrice:32,badge:"hot",badgeText:"🔥 Bestseller",emoji:"🌟",bg:"#e8f4fd",desc:"Projection étoiles 360°, minuterie 30min, télécommande incluse. Le préféré des parents !",stars:5,reviews:1243},
@@ -776,125 +773,13 @@ function showToast(msg){
 
 function wishToast(){showToast('💜 Ajouté à vos favoris !')}
 
-async function checkout(){
+function checkout(){
   if(!cart.length)return;
-
-  const btn=document.querySelector('.btn-checkout');
-  btn.textContent='⏳ Chargement...';
-  btn.disabled=true;
-
-  try {
-    // Build line items for Stripe
-    const lineItems = cart.map(item => ({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: item.name,
-          description: item.desc,
-        },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: item.qty,
-    }));
-
-    // NOTE: Stripe Checkout requires a backend to create sessions securely.
-    // This shows a payment modal using Stripe.js directly instead.
-    const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-    
-    // Show Stripe payment modal info
-    showPaymentModal(total);
-  } catch(e) {
-    showToast('❌ Erreur de paiement. Réessayez.');
-  }
-  
-  btn.textContent='🔒 PAYER MAINTENANT';
-  btn.disabled=false;
-}
-
-function showPaymentModal(total){
-  // Remove existing modal if any
-  document.getElementById('stripeModal')?.remove();
-  
-  const modal = document.createElement('div');
-  modal.id = 'stripeModal';
-  modal.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(45,36,56,0.7);display:flex;align-items:center;justify-content:center;padding:20px';
-  modal.innerHTML=`
-    <div style="background:white;border-radius:24px;padding:40px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px">
-        <div style="font-family:'Playfair Display',serif;font-size:22px;color:#2d2438">🔒 Paiement sécurisé</div>
-        <button onclick="document.getElementById('stripeModal').remove()" style="background:#f5f5f5;border:none;cursor:pointer;width:32px;height:32px;border-radius:50%;font-size:16px">✕</button>
-      </div>
-      <div style="background:#f8f4ff;border-radius:12px;padding:16px;margin-bottom:24px;font-size:14px;color:#7c5cbf;font-weight:700;text-align:center">
-        Total à payer : ${total.toFixed(2).replace('.',',')} €
-      </div>
-      <div style="margin-bottom:16px">
-        <label style="font-size:12px;font-weight:700;color:#8a7e9a;display:block;margin-bottom:6px">NUMÉRO DE CARTE</label>
-        <div id="cardNumber" style="border:2px solid #e8e0f0;border-radius:10px;padding:14px;font-size:14px;background:white"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div>
-          <label style="font-size:12px;font-weight:700;color:#8a7e9a;display:block;margin-bottom:6px">EXPIRATION</label>
-          <div id="cardExpiry" style="border:2px solid #e8e0f0;border-radius:10px;padding:14px;background:white"></div>
-        </div>
-        <div>
-          <label style="font-size:12px;font-weight:700;color:#8a7e9a;display:block;margin-bottom:6px">CVC</label>
-          <div id="cardCvc" style="border:2px solid #e8e0f0;border-radius:10px;padding:14px;background:white"></div>
-        </div>
-      </div>
-      <div id="cardError" style="color:#e8609a;font-size:13px;margin-bottom:12px;min-height:18px"></div>
-      <button id="payBtn" onclick="processPayment(${total})" style="width:100%;background:linear-gradient(135deg,#7c5cbf,#e8609a);color:white;border:none;cursor:pointer;padding:16px;border-radius:50px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif">
-        💳 Payer ${total.toFixed(2).replace('.',',')} €
-      </button>
-      <p style="text-align:center;font-size:11px;color:#8a7e9a;margin-top:12px">🔒 Paiement chiffré SSL — Powered by Stripe</p>
-    </div>
-  `;
-  document.body.appendChild(modal);
-  
-  // Mount Stripe Elements
-  const elements = stripe.elements();
-  const style = {
-    base: { fontSize:'15px', color:'#2d2438', fontFamily:'Nunito, sans-serif', '::placeholder':{color:'#c4b8d4'} },
-    invalid: { color:'#e8609a' }
-  };
-  
-  window._cardNumber = elements.create('cardNumber', {style});
-  window._cardExpiry = elements.create('cardExpiry', {style});
-  window._cardCvc = elements.create('cardCvc', {style});
-  
-  window._cardNumber.mount('#cardNumber');
-  window._cardExpiry.mount('#cardExpiry');
-  window._cardCvc.mount('#cardCvc');
-  
-  window._cardNumber.on('change', e=>{
-    document.getElementById('cardError').textContent = e.error ? e.error.message : '';
-  });
-}
-
-async function processPayment(total){
-  const btn=document.getElementById('payBtn');
-  btn.textContent='⏳ Traitement...';btn.disabled=true;
-  
-  // Create payment method
-  const {paymentMethod, error} = await stripe.createPaymentMethod({
-    type:'card',
-    card: window._cardNumber,
-  });
-  
-  if(error){
-    document.getElementById('cardError').textContent=error.message;
-    btn.textContent=`💳 Payer ${total.toFixed(2).replace('.',',')} €`;
-    btn.disabled=false;
-    return;
-  }
-  
-  // ⚠️ For real charges, send paymentMethod.id to YOUR backend
-  // which creates a PaymentIntent with stripe.paymentIntents.create()
-  // For now we confirm the card was valid
-  document.getElementById('stripeModal').remove();
-  cart=[];
-  updateCartUI();
-  toggleCart();
-  showToast('🎉 Commande confirmée ! Merci pour votre achat !');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const items=cart.map(i=>`${i.qty}x ${i.name} (${i.price}€)`).join(', ');
+  const msg=`Bonjour, je souhaite commander : ${items}. Total : ${total.toFixed(2)}€`;
+  const url=`https://wa.me/33600000000?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
 }
 
 function subscribe(){
